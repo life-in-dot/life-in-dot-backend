@@ -16,6 +16,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "joi": "^17.6.0",
+    "joi-objectid": "^4.0.2",
     "joigoose": "^8.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.2",
