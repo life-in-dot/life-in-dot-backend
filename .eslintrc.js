@@ -17,5 +17,13 @@ module.exports = {
     "func-names": "off",
     "no-shadow": "off",
     "consistent-return": "off",
+    "no-var": "warn",
+    "vars-on-top": "warn",
+    "no-use-before-define": "warn",
+    "import/order": "warn",
+    "prefer-template": "warn",
+    "no-restricted-globals": "warn",
+    "no-underscore-dangle": "off",
+    camelcase: "warn",
   },
 };
