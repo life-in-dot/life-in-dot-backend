@@ -16,7 +16,7 @@ exports.login = catchAsync(async (req, res, next) => {
   let userData = await User.findOne({ email });
 
   if (!userData) {
-    userData = User.create({
+    userData = await User.create({
       name,
       email,
       picture,

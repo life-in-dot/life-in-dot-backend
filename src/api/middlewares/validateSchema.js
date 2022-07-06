@@ -3,7 +3,7 @@ const logger = require("../../loaders/logger");
 
 module.exports = function validateSchema(schema, property) {
   return (req, res, next) => {
-    const { error } = schema.validateSchema(req[property]);
+    const { error } = schema.validate(req[property]);
 
     if (error) {
       next(createError(400));
