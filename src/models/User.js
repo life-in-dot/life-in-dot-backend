@@ -6,7 +6,7 @@ const joiUserSchema = joi.object({
   name: joi.string().required(),
   email: joi.string().email().required(),
   picture: joi.string().uri(),
-  dateOfBirth: joi.string().required(),
+  dateOfBirth: joi.object().required(),
   myJournals: joi.array().items(
     joi.string().meta({
       _mongoose: {

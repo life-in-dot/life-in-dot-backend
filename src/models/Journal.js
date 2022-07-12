@@ -9,7 +9,7 @@ const joiJournalSchema = joi.object({
   musicUrl: joi.string().allow("").default(""),
   albumCoverUrl: joi.string().allow("").default(""),
   contentsSize: joi.number(),
-  lastSavedTime: joi.date().default(new Date()),
+  lastSavedTime: joi.date().default(Date.now()),
 });
 
 const journalSchema = new mongoose.Schema(joigoose.convert(joiJournalSchema));
