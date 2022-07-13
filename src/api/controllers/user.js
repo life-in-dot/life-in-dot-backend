@@ -42,26 +42,32 @@ exports.createJournal = catchAsync(async (req, res, next) => {
   let newJournal;
 
   await session.withTransaction(async () => {
-    const newJournalArr = await Journal.create(
-      [
-        {
-          dateId,
-          title,
-          contents,
-          contentsSize: contents.length,
-        },
-      ],
-      { session },
-    );
+    const userJournal = await Journal.findOne({ dateId });
 
-    newJournal = newJournalArr[0].toObject();
-    delete newJournal.__v;
+    if (!userJournal) {
+      const newJournalArr = await Journal.create(
+        [
+          {
+            dateId,
+            title,
+            contents,
+            contentsSize: contents.length,
+          },
+        ],
+        { session },
+      );
 
-    await User.updateOne(
-      { _id: user_id },
-      { $push: { myJournals: newJournal._id } },
-      { session },
-    );
+      newJournal = newJournalArr[0].toObject();
+      delete newJournal.__v;
+
+      await User.updateOne(
+        { _id: user_id },
+        { $push: { myJournals: newJournal._id } },
+        { session },
+      );
+    } else {
+      newJournal = userJournal;
+    }
   });
 
   session.endSession();
@@ -74,10 +80,12 @@ exports.createJournal = catchAsync(async (req, res, next) => {
 
 exports.updateJournal = catchAsync(async (req, res, next) => {
   const { journal_id } = req.params;
+  const { title, contents, contentsSize, musicUrl } = req.body;
+  const lastSavedTime = Date.now();
 
   await Journal.findByIdAndUpdate(
     { _id: journal_id },
-    { ...req.body },
+    { title, contents, musicUrl, contentsSize, lastSavedTime },
     { new: true },
   );
 
@@ -88,12 +96,12 @@ exports.updateJournal = catchAsync(async (req, res, next) => {
 
 exports.replaceJournal = catchAsync(async (req, res, next) => {
   const { journal_id } = req.params;
-  const { contents } = req.body;
+  const { contents, contentsSize } = req.body;
   const lastSavedTime = Date.now();
 
   await Journal.findOneAndReplace(
     { _id: journal_id },
-    { ...req.body, contentsSize: contents.length, lastSavedTime },
+    { ...req.body, contentsSize, lastSavedTime },
     { new: true },
   );
 
