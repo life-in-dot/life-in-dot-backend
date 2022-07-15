@@ -51,7 +51,7 @@ exports.createJournal = catchAsync(async (req, res, next) => {
             dateId,
             title,
             contents,
-            contentsSize: contents.length,
+            contentsSize: contents ? contents.length : 0,
           },
         ],
         { session },
