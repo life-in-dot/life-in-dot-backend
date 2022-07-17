@@ -5,7 +5,10 @@ const routes = require("../api");
 const { errorHandler } = require("../api/middlewares/errorHandler");
 
 module.exports = app => {
-  app.get("/", (req, res) => {
+  app.get("/status", (req, res) => {
+    res.status(200).end();
+  });
+  app.head("/status", (req, res) => {
     res.status(200).end();
   });
 
